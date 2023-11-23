@@ -190,9 +190,24 @@ def imread_uint(path, n_channels=3):
     elif n_channels == 3:
         img = cv2.imread(path, cv2.IMREAD_UNCHANGED)  # BGR or G
         if img.ndim == 2:
+            cv2.COLOR_BGR2YCrCb
             img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)  # GGG
         else:
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)  # RGB
+    return img
+
+
+# --------------------------------------------
+# get uint8 image of size HxWxn_channles (YCbCr)
+# --------------------------------------------
+def imread_jpeg_uint(path, n_channels=3):
+    #  input: path
+    # output: HxWx3(YCbCr)
+    img = None
+    if n_channels == 3:
+        img = cv2.imread(path, cv2.IMREAD_UNCHANGED)  # BGR or G
+        if img.ndim > 2:
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb)  # YCrCb
     return img
 
 
@@ -204,6 +219,12 @@ def imsave(img, img_path):
     if img.ndim == 3:
         img = img[:, :, [2, 1, 0]]
     cv2.imwrite(img_path, img)
+
+def jpegsave(img, img_path, quality):
+    img = np.squeeze(img)
+    if img.ndim == 3:
+        img = img[:, :, [2, 1, 0]]
+    cv2.imwrite(img_path, img, [int(cv2.IMWRITE_JPEG_QUALITY), quality])
 
 def imwrite(img, img_path):
     img = np.squeeze(img)

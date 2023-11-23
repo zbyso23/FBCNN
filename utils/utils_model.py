@@ -5,7 +5,7 @@ from utils import utils_image as util
 import re
 import glob
 import os
-from IPython import embed
+# from IPython import embed
 
 '''
 # --------------------------------------------
